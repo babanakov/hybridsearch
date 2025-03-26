@@ -68,9 +68,9 @@ jupyter notebook notebooks/main_interface.ipynb
 config.yaml
 
 ### 📁 Dataset
-3000 row sample included in the distribution - data folder
-[Full dataset in CSV](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0)
-[Full dataset processed, with embeddings](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0)
+- ✅ 3000 row sample included in the distribution - data folder 
+- 📂 [Full dataset in CSV](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0) 
+- 🧠 [Full dataset processed, with embeddings](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0) 
 
 Source:
 [TMDB Movies Dataset 2024 1.2M Movies](https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies)
