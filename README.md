@@ -68,7 +68,10 @@ Download the dataset and update dataset_path in the config
 python 1_complete_pipeline.py 
 ```
 ### 4. Explore the results interactively
+Run search queries interactively in Jupyter Notebook
+```bash
 jupyter notebook 2_Main_Notebook.ipynb
+```
 
 ### ⚙️ Configuration
 config.yaml
