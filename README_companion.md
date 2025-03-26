@@ -25,6 +25,7 @@ I switched to a movie dataset instead — something rich in language (titles, de
 ## 4. 📊 What Could Be Next
 
 - Integrate more data fields (plot, budget, popularity, etc.) for more sophisticated search scenarios.
+- Enable GPU support for Qdrant deploymnet and embedding models
 - Add latency tracking dashboards (percentiles, outliers).
 - Support real-time updates to the index.
 - Try different rerankers (ColBERT, multilingual GTE).
