@@ -18,7 +18,7 @@ Qdrant in Docker on Intel/AMD ():
 ---
 
 ## 🧱 Project Structure
-
+```text
 project-root/
 │
 ├── src/
@@ -37,19 +37,19 @@ project-root/
 ├── requirements.txt                        ← 📦 Reproducibility
 ├── README.md                               ← 📘 How to run, overview
 └── main_interface.ipynb                    ← 📓 Central interactive notebook (user input, demo)
-
+```
 ---
 
 ## 🧪 Quickstart
 
 ### 1. Install dependencies (Python 3.10+)
-#bash
+```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
+```
 ### 2. Start Qdrant locally
-#bash
+```bash
 docker run -p 6333:6333 qdrant/qdrant
 docker-compose up -d
 docker ps
@@ -57,7 +57,7 @@ docker logs qdrant-node1 -f
 curl http://localhost:6333/cluster | jq
 
 docker-compose down -v
-
+```
 ### 3. Run the test pipeline. 3000 records takes ~4 min
 python test_pipeline.py
 
