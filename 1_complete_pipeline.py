@@ -1,6 +1,7 @@
 from src.data_preparation import load_and_clean_data, upload_to_qdrant
 from src.evaluation import run_batch_queries
 from src.visualize import plot_latency, plot_score_dist
+from src.config import config
 import os
 import time
 
@@ -8,8 +9,8 @@ import time
 print("🚀 Step 1: Loading and uploading data...")
 
 # Update the dataset path in the config dynamically
-dataset_path = "~/data/TMDB_movie_dataset_v11.csv.gz"
-rows = None # Will read the entire file (it's big), set to desired number of rows, i.e. 1000 rows for dev-mode
+dataset_path = config["dataset_path"] # Update the config with your path
+rows = config["rows"] # Will read the entire file (it's big), set to desired number of rows in the config, i.e. 1000 for dev-mode
 
 df = load_and_clean_data(dataset_path=dataset_path, rows=rows)
 upload_to_qdrant(df)

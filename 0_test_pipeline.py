@@ -1,6 +1,7 @@
 from src.data_preparation import load_and_clean_data, upload_to_qdrant
 from src.evaluation import run_batch_queries
 from src.visualize import plot_latency, plot_score_dist
+from src.config import config
 import os
 import time
 

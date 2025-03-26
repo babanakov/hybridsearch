@@ -59,10 +59,16 @@ curl http://localhost:6333/cluster | jq
 docker-compose down -v
 ```
 ### 3. Run the test pipeline. 3000 records takes ~4 min
-python test_pipeline.py
-
+```bash
+python 0_test_pipeline.py
+```
+### 4. Run the complete pipeline. 1.2M records takes several hours depending on your compute
+Download the dataset and update dataset_path in the config 
+```bash
+python 1_complete_pipeline.py 
+```
 ### 4. Explore the results interactively
-jupyter notebook notebooks/main_interface.ipynb
+jupyter notebook 2_Main_Notebook.ipynb
 
 ### ⚙️ Configuration
 config.yaml
