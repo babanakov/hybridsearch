@@ -16,6 +16,9 @@ Qdrant in Docker on Intel/AMD ():
 - **Interactive UI** — via Jupyter widgets in `main_interface.ipynb`
 
 ---
+## 📽️ Demo
+
+![Demo](hybridsearch_demo.mp4) 
 
 ## 🧱 Project Structure
 ```text

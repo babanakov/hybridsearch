@@ -11,7 +11,7 @@ embedding_models:
 
 qdrant:
   host: localhost
-  port: 6333
+  port: 8333
 
 dataset_path: ~/data/TMDB_movie_dataset_v11.csv.gz
 rows:  # Will read the entire file (it's big), set to desired number of rows i.e. 1000 for dev-mode
