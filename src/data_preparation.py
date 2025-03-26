@@ -17,19 +17,6 @@ if ROOT not in sys.path:
 # Start measuring total processing time
 start_time = time.time()
 
-# def load_and_clean_data():
-#     print("📥 load_and_clean_data: started...")
-#     t0 = time.time()
-
-#     df = pd.read_csv(os.path.expanduser(config['dataset_path']), nrows=rows, compression='infer')
-#     text_cols = ["title", "overview", "tagline", "genres", "keywords"]
-#     df[text_cols] = df[text_cols].fillna("")
-#     df["full_text"] = df[text_cols].agg(" ".join, axis=1)
-#     df["user_id"] = np.random.randint(1, 11, size=len(df))
-
-#     print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
-#     return df
-
 def load_and_clean_data(dataset_path=None, rows=None):
     print("📥 load_and_clean_data: started...")
     t0 = time.time()
@@ -64,10 +51,14 @@ def upload_to_qdrant(df):
         vectors_config={
             "dense": models.VectorParams(
                 size=384,
-                distance=models.Distance.COSINE,
-                hnsw_config=models.HnswConfigDiff(m=16, ef_construct=100)
+                distance=models.Distance.COSINE
             )
         },
+        quantization_config=models.BinaryQuantization(
+            binary=models.BinaryQuantizationConfig(
+                always_ram=True
+            )
+        ),
         sparse_vectors_config={
             "sparse": models.SparseVectorParams(
                 index=models.SparseIndexParams(
