@@ -2,7 +2,6 @@ from qdrant_client import QdrantClient, models
 from sentence_transformers import SentenceTransformer
 from fastembed import SparseTextEmbedding
 import torch
-
 from src.config import config
 
 # Initialize shared resources

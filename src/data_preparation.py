@@ -9,36 +9,34 @@ from qdrant_client import QdrantClient, models
 from tqdm import tqdm
 import os
 import sys
+from src.config import config
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
-from src.config import config, is_dev_mode, max_rows
 
 # Start measuring total processing time
 start_time = time.time()
 
-def load_and_clean_data():
-    print("📥 load_and_clean_data: started...")
-    t0 = time.time()
+# def load_and_clean_data():
+#     print("📥 load_and_clean_data: started...")
+#     t0 = time.time()
 
-    rows = max_rows() if is_dev_mode() else None
-    df = pd.read_csv(os.path.expanduser(config['dataset_path']), nrows=rows)
-    text_cols = ["title", "overview", "tagline", "genres", "keywords"]
-    df[text_cols] = df[text_cols].fillna("")
-    df["full_text"] = df[text_cols].agg(" ".join, axis=1)
-    df["user_id"] = np.random.randint(1, 11, size=len(df))
+#     df = pd.read_csv(os.path.expanduser(config['dataset_path']), nrows=rows, compression='infer')
+#     text_cols = ["title", "overview", "tagline", "genres", "keywords"]
+#     df[text_cols] = df[text_cols].fillna("")
+#     df["full_text"] = df[text_cols].agg(" ".join, axis=1)
+#     df["user_id"] = np.random.randint(1, 11, size=len(df))
 
-    print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
-    return df
+#     print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
+#     return df
 
-def load_and_clean_data(dataset_path=None):
+def load_and_clean_data(dataset_path=None, rows=None):
     print("📥 load_and_clean_data: started...")
     t0 = time.time()
 
     # Use the provided dataset path or fall back to the config
-    dataset_path = dataset_path or os.path.expanduser(config['dataset_path'])
+    dataset_path = dataset_path or os.path.expanduser(config['dataset_path'], nrows=rows, compression='infer')
 
-    rows = max_rows() if is_dev_mode() else None
     df = pd.read_csv(dataset_path, nrows=rows)
     text_cols = ["title", "overview", "tagline", "genres", "keywords"]
     df[text_cols] = df[text_cols].fillna("")

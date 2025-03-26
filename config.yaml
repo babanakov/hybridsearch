@@ -11,6 +11,6 @@ embedding_models:
 
 qdrant:
   host: localhost
-  port: 8333
+  port: 6333
 
-dataset_path: data/TMDB_movie_dataset_v11.csv
+dataset_path: ~/data/TMDB_movie_dataset_v11.csv.gz
