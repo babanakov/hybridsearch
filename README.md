@@ -2,8 +2,11 @@
 
 This project implements a modular hybrid search pipeline on a 1M-row TMDB movie dataset using Qdrant as the vector database. It combines dense (semantic), sparse (keyword), and reranking techniques to provide high-quality, user-specific search results.
 
-Qdrant in Docker on Intel/AMD ():
----
+High-level, the code covers 3 scenarios (check out the demo video for more info):
+- test pipeline on 3,000 dataset records to test end-to-end code (local database,localhost:6333)
+- full pipeline on 1.2M records which takes several hours to load depending on your compute (production database on EC2 machine, localhost:8333)
+- search notebook to provide bare-bones UX (configured to run on 1.2M records)
+
 
 ## 🚀 Features
 
@@ -19,6 +22,9 @@ Qdrant in Docker on Intel/AMD ():
 ## 📽️ Demo
 
 [Short Demo Recording](hybridsearch_demo.mp4) 
+- 00:00-00:12 - test pipeline on local test database
+- 00:12-00:18 - full pipeline on production database
+- 00:18-00:42 - search notebook
 
 ## 🧱 Project Structure
 ```text
