@@ -18,7 +18,7 @@ Qdrant in Docker on Intel/AMD ():
 ---
 ## 📽️ Demo
 
-![Demo](hybridsearch_demo.mp4) 
+[Short Demo Recording](hybridsearch_demo.mp4) 
 
 ## 🧱 Project Structure
 ```text
