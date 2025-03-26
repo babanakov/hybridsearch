@@ -1,0 +1,16 @@
+collection_name: movies
+batch_size: 256
+top_k: 20
+rerank_top_n: 10
+query_log_path: query_logs.jsonl
+
+embedding_models:
+  dense: sentence-transformers/all-MiniLM-L6-v2
+  sparse: Qdrant/bm42-all-minilm-l6-v2-attentions
+  reranker: jinaai/jina-reranker-v2-base-multilingual
+
+qdrant:
+  host: localhost
+  port: 8333
+
+dataset_path: data/TMDB_movie_dataset_v11.csv
