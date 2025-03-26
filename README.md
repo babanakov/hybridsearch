@@ -30,8 +30,8 @@ project-root/
 │   └── visualize.py                        ← 📊 Matplotlib-based plotters (optiolal)
 ├── data/
 │   ├── TMDB_movie_dataset_v11_small.csv    ← 📦 Test dataset 3,000 records
-│   ├── TMDB_movie_dataset_v11.csv          ← 📤 Full dataset 1,196,770 records
-│   └── movies_backup.json                  ← 📤 Full dataset processed, with embeddings
+│   ├── TMDB_movie_dataset_v11.csv          ← ❌ too big for github, shared on dropbox, link below
+│   └── movies_backup.json                  ← ❌ too big for github, shared on dropbox, link below
 │
 ├── config.yaml                             ← ⚙️ Central config (models, paths, params)
 ├── requirements.txt                        ← 📦 Reproducibility
@@ -68,10 +68,12 @@ jupyter notebook notebooks/main_interface.ipynb
 config.yaml
 
 ### 📁 Dataset
-Datataset included in the distribution - data folder
+3000 row sample included in the distribution - data folder
+[Full dataset in CSV](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0)
+[Full dataset processed, with embeddings](https://www.dropbox.com/scl/fo/i06gcqjmxk3z020j95wb2/AAgRqmImMWIV_EOvYwJeEVQ?rlkey=e6wacmtdj5txt27xhepjtu18x&st=c952zhtm&dl=0)
 
-Source: https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies
-TMDB Movies Dataset 2024 1.2M Movies
+Source:
+[TMDB Movies Dataset 2024 1.2M Movies](https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies)
 
 ### ✅ Requirements
 Python >= 3.10
