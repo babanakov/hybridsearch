@@ -93,8 +93,8 @@ def upload_to_qdrant(df):
 
         t0 = time.time()
         with torch.inference_mode():
-            dense_vecs = dense_model.encode(texts, convert_to_numpy=True, batch_size=256)
-        sparse_vecs = list(sparse_model.embed(texts, batch_size=256))
+            dense_vecs = dense_model.encode(texts, convert_to_numpy=True, batch_size=batch_size)
+            sparse_vecs = list(sparse_model.embed(texts, batch_size))
 
         points = []
         for i, (row, dense, sparse) in enumerate(zip(batch_df.itertuples(), dense_vecs, sparse_vecs)):

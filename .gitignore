@@ -1,5 +1,6 @@
 .DS_Store
 .venv
 src/__pycache__
+data/query_logs.json
 data/movies_backup.json
 data/TMDB_movie_dataset_v11.csv

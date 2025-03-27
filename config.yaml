@@ -1,5 +1,5 @@
-collection_name: movies-v2
-batch_size: 256
+collection_name: movies
+batch_size: 512
 top_k: 20
 rerank_top_n: 10
 query_log_path: data/query_logs.jsonl
