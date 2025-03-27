@@ -30,6 +30,7 @@ I switched to a movie dataset instead — something rich in language (titles, de
 - Support real-time updates to the index.
 - Try different rerankers (ColBERT, multilingual GTE).
 - Build a tagging UI for human-in-the-loop feedback or clustering.
+- Cleanup the requirements.
 
 ## 5. 🤖 How I Used AI to Work Faster
 

@@ -1,4 +1,4 @@
-from src.data_preparation import load_and_clean_data, upload_to_qdrant
+from src.data_preparation import load_and_clean_data, upload_to_qdrant # data_preparation_gpu for mac M3, data_preparation for generic CPU
 from src.evaluation import run_batch_queries
 from src.visualize import plot_latency, plot_score_dist
 from src.config import config
