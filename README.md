@@ -60,7 +60,6 @@ pip install -r requirements.txt
 ```
 ### 2. Start Qdrant locally
 ```bash
-docker run -p 6333:6333 qdrant/qdrant
 docker-compose up -d
 docker ps
 docker logs qdrant-node1 -f
