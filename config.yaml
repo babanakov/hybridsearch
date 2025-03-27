@@ -1,4 +1,4 @@
-collection_name: movies
+collection_name: movies-v2
 batch_size: 256
 top_k: 20
 rerank_top_n: 10

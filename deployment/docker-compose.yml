@@ -26,6 +26,8 @@ services:
     command: 
       - /qdrant/qdrant
       - --bootstrap
+      - http://qdrant-node2:6335
+      - --join 
       - http://qdrant-node1:6335
     volumes:
       - qdrant_node2_data:/qdrant/storage
