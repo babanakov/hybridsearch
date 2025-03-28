@@ -165,7 +165,7 @@ def upload_to_qdrant(df):
 
     monitor_active = False
     elapsed_time = timedelta(seconds=int(time.time() - start_time))
-    print(f"\n✅ Upload complete. {len(df)} records in {str(elapsed_time)}, {int(len(df)/elapsed_time.total_seconds())} rec/sec")
+    print(f"\n✅ Pipeline complete. {len(df)} records in {str(elapsed_time)}, {int(len(df)/elapsed_time.total_seconds())} rec/sec")
 
 if __name__ == "__main__":
     df = load_and_clean_data()
