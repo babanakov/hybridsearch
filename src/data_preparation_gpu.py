@@ -138,7 +138,7 @@ def upload_to_qdrant(df):
         sparse_vecs = parallel_encode_sparse(texts, num_chunks=NUM_WORKERS)
         t_sparse_end = time.time()
 
-        t_points_start = time.time()
+        t_upsert_start = time.time()
         points = []
         for i, (row, dense, sparse) in enumerate(zip(df_chunk.itertuples(), dense_vecs, sparse_vecs)):
             points.append(models.PointStruct(
@@ -157,7 +157,7 @@ def upload_to_qdrant(df):
                 }
             ))
         client.upsert(collection_name=collection_name, points=points)
-        t_points_end = time.time()
+        t_upsert_end = time.time()
 
         batch_time = time.time() - batch_start
         print(f"\n📦 Uploaded batch {batch_num} | points: {len(points)} | time: {batch_time:.2f}s")
