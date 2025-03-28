@@ -92,9 +92,10 @@ config.yaml
 - ℹ️ [Source: TMDB Movies Dataset 2024 1.2M Movies](https://www.kaggle.com/datasets/asaniczka/tmdb-movies-dataset-2023-930k-movies)
 
 ### ✅ Requirements
-Python >= 3.10
-
+Python = 3.10
 Qdrant running locally (port 6333)
 
 ### 📝 License
 MIT — use freely, modify as needed. Contributions welcome!
+
+![Complete Pipeline run on Apple M3 Pro, 1.2M in 13.5 hours](image.png)
