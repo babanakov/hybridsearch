@@ -18,20 +18,33 @@ if ROOT not in sys.path:
 start_time = time.time()
 
 def load_and_clean_data(dataset_path=None, rows=None):
-    print("📥 load_and_clean_data: started...")
+    print("\U0001F4E5 Dataset load started...")
     t0 = time.time()
-
-    # Use the provided dataset path or fall back to the config
-    dataset_path = dataset_path or os.path.expanduser(config['dataset_path'], nrows=rows, compression='infer')
-
+    dataset_path = dataset_path or os.path.expanduser(config['dataset_path'])
+    rows = rows if rows is not None else config.get("rows")
     df = pd.read_csv(dataset_path, nrows=rows)
     text_cols = ["title", "overview", "tagline", "genres", "keywords"]
     df[text_cols] = df[text_cols].fillna("")
     df["full_text"] = df[text_cols].agg(" ".join, axis=1)
     df["user_id"] = np.random.randint(1, 11, size=len(df))
-
-    print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
+    print(f"✅ Load complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
     return df
+
+# def load_and_clean_data(dataset_path=None, rows=None):
+#     print("📥 load_and_clean_data: started...")
+#     t0 = time.time()
+
+#     # Use the provided dataset path or fall back to the config
+#     dataset_path = dataset_path or os.path.expanduser(config['dataset_path'], nrows=rows, compression='infer')
+
+#     df = pd.read_csv(dataset_path, nrows=rows)
+#     text_cols = ["title", "overview", "tagline", "genres", "keywords"]
+#     df[text_cols] = df[text_cols].fillna("")
+#     df["full_text"] = df[text_cols].agg(" ".join, axis=1)
+#     df["user_id"] = np.random.randint(1, 11, size=len(df))
+
+#     print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
+#     return df
 
 def upload_to_qdrant(df):
     print("📡 Connecting to Qdrant...")
@@ -121,6 +134,7 @@ def upload_to_qdrant(df):
     end_time = time.time()
     elapsed_time = timedelta(seconds=int(end_time - start_time))
     print(f"✅ Upload complete. {total_records} records in {str(elapsed_time)}")
+    print(f"\n✅ Upload complete. {len(df)} records in {str(elapsed_time)}, {int(len(df)/elapsed_time.total_seconds())} rec/sec")
 
 if __name__ == "__main__":
     df = load_and_clean_data()

@@ -10,19 +10,21 @@ from tqdm import tqdm
 import os
 import sys
 import psutil
+from concurrent.futures import ProcessPoolExecutor
 from src.config import config
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-# Detect if running on Apple Silicon (M1/M2/M3)
-IS_APPLE_SILICON = sys.platform == "darwin" and "arm" in os.uname().machine
+# Optimize for g6.4xlarge (L4 GPU + 16 vCPUs)
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
 
-if IS_APPLE_SILICON:
-    os.environ["TOKENIZERS_PARALLELISM"] = "false"
-    os.environ["OMP_NUM_THREADS"] = "6"
-    os.environ["MKL_NUM_THREADS"] = "6"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+NUM_WORKERS = 8  # g6.4xlarge: balance CPU for sparse parallelism
+
 
 def load_and_clean_data(dataset_path=None, rows=None):
     print("\U0001F4E5 load_and_clean_data: started...")
@@ -37,6 +39,15 @@ def load_and_clean_data(dataset_path=None, rows=None):
 
     print(f"✅ load_and_clean_data: complete - {len(df)} rows loaded in {time.time() - t0:.2f}s")
     return df
+
+
+def encode_sparse(texts):
+    sparse_model = SparseTextEmbedding(
+        model_name=config['embedding_models']['sparse'],
+        providers=["CPUExecutionProvider"],
+        quantize=True
+    )
+    return list(sparse_model.embed(texts, batch_size=config['batch_size']))
 
 
 def upload_to_qdrant(df):
@@ -73,50 +84,45 @@ def upload_to_qdrant(df):
     )
     print(f"✅ Qdrant collection '{collection_name}' created.")
 
-    device = "mps" if IS_APPLE_SILICON else ("cuda" if torch.cuda.is_available() else "cpu")
     dense_model = SentenceTransformer(config['embedding_models']['dense'], device=device).eval()
-
-    sparse_provider = "CPUExecutionProvider"
-    sparse_model = SparseTextEmbedding(
-        model_name=config['embedding_models']['sparse'],
-        providers=[sparse_provider],
-        quantize=True
-    )
-
+    print(f"🚀 Using device: {device} for dense embedding")
     print("✨ Encoding and upload starting...")
     start_time = time.time()
 
-    for batch_num, start_idx in enumerate(range(0, len(df), batch_size)):
-        batch_start = time.time()
-        df_chunk = df.iloc[start_idx:start_idx + batch_size].copy()
-        texts = df_chunk["full_text"].tolist()
+    with ProcessPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        for batch_num, start_idx in enumerate(range(0, len(df), batch_size)):
+            batch_start = time.time()
+            df_chunk = df.iloc[start_idx:start_idx + batch_size].copy()
+            texts = df_chunk["full_text"].tolist()
 
-        with torch.inference_mode():
-            dense_vecs = dense_model.encode(texts, convert_to_numpy=True, batch_size=batch_size)
-        sparse_vecs = list(sparse_model.embed(texts, batch_size=batch_size))
+            with torch.inference_mode():
+                dense_vecs = dense_model.encode(texts, convert_to_numpy=True, batch_size=batch_size)
 
-        points = []
-        for i, (row, dense, sparse) in enumerate(zip(df_chunk.itertuples(), dense_vecs, sparse_vecs)):
-            points.append(models.PointStruct(
-                id=int(row.Index),
-                vector={
-                    "dense": dense.tolist(),
-                    "sparse": models.SparseVector(
-                        indices=sparse.indices.tolist(),
-                        values=sparse.values.tolist()
-                    )
-                },
-                payload={
-                    "user_id": int(row.user_id),
-                    "title": row.title,
-                    "overview": row.overview
-                }
-            ))
+            sparse_future = executor.submit(encode_sparse, texts)
+            sparse_vecs = sparse_future.result()
 
-        client.upsert(collection_name=collection_name, points=points)
-        mem_usage = psutil.Process().memory_info().rss / 1024**3
-        batch_time = time.time() - batch_start
-        print(f"✅ Uploaded batch {batch_num} | points: {len(points)} | time: {batch_time:.2f}s | RAM: {mem_usage:.1f} GB")
+            points = []
+            for i, (row, dense, sparse) in enumerate(zip(df_chunk.itertuples(), dense_vecs, sparse_vecs)):
+                points.append(models.PointStruct(
+                    id=int(row.Index),
+                    vector={
+                        "dense": dense.tolist(),
+                        "sparse": models.SparseVector(
+                            indices=sparse.indices.tolist(),
+                            values=sparse.values.tolist()
+                        )
+                    },
+                    payload={
+                        "user_id": int(row.user_id),
+                        "title": row.title,
+                        "overview": row.overview
+                    }
+                ))
+
+            client.upsert(collection_name=collection_name, points=points)
+            mem_usage = psutil.Process().memory_info().rss / 1024**3
+            batch_time = time.time() - batch_start
+            print(f"✅ Uploaded batch {batch_num} | points: {len(points)} | time: {batch_time:.2f}s | RAM: {mem_usage:.1f} GB")
 
     elapsed_time = timedelta(seconds=int(time.time() - start_time))
     print(f"✅ Upload complete. {len(df)} records in {str(elapsed_time)}")

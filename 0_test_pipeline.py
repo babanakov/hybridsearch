@@ -9,7 +9,7 @@ import time
 print("🚀 Step 1: Loading and uploading data...")
 
 # Update the dataset path in the config dynamically
-dataset_path = "data/TMDB_movie_dataset_v11_small.csv"
+dataset_path = "data/TMDB_movie_dataset_v11_small.csv.gz"
 
 df = load_and_clean_data(dataset_path=dataset_path)
 upload_to_qdrant(df)

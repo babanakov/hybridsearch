@@ -67,6 +67,8 @@ curl http://localhost:6333/cluster | jq
 
 docker-compose down -v
 ```
+Compose file: `deployment/docker-compose.yml`
+
 ### 3. Run the test pipeline. 3000 records takes ~4 min
 ```bash
 python 0_test_pipeline.py
@@ -74,8 +76,12 @@ python 0_test_pipeline.py
 ### 4. Run the complete pipeline. 1.2M records takes several hours depending on your compute
 Download the dataset and update dataset_path in the config 
 ```bash
-python 1_complete_pipeline.py 
+python 1_complete_pipeline.py
 ```
+⏱️ Complete Pipeline run on Apple M3 Pro, 1.2M in 13.5 hours:
+
+<img src="image.png" width="50%">
+
 ### 4. Explore the results interactively
 Run search queries interactively in Jupyter Notebook
 ```bash
@@ -83,7 +89,16 @@ jupyter notebook 2_Main_Notebook.ipynb
 ```
 
 ### ⚙️ Configuration
-config.yaml
+Key options in `config.yaml`
+`collection_name:`
+`batch_size:`
+
+`embedding_models:`
+
+`qdrant:` - database endpoint
+
+`dataset_path:`
+`rows:` - set to desired number of rows i.e. 1000 for dev-mode. by default the complete pipeline will read the entire file.
 
 ### 📁 Dataset
 - ✅ 3000 row sample included in the distribution - data folder 
@@ -97,5 +112,3 @@ Qdrant running locally (port 6333)
 
 ### 📝 License
 MIT — use freely, modify as needed. Contributions welcome!
-
-![Complete Pipeline run on Apple M3 Pro, 1.2M in 13.5 hours](image.png)
