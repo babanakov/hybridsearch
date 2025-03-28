@@ -4,8 +4,9 @@ volumes:
 
 services:
   qdrant-node1:
-    image: qdrant/qdrant
-    command:
+    image: qdrant/qdrant:v1.13.4
+    platform: linux/arm64
+    command: 
       - /qdrant/qdrant
       - --uri
       - http://qdrant-node1:6335
@@ -14,24 +15,25 @@ services:
     volumes:
       - qdrant_node1_data:/qdrant/storage
     ports:
-      - "6333:6333"  # Node1 HTTP API
-      - "6334:6334"  # Node1 gRPC
+      - "6333:6333"  # Primary node HTTP
+      - "6334:6334"  # Primary node gRPC
     networks:
       - qdrant-net
     environment:
       QDRANT__CLUSTER__ENABLED: "true"
 
   qdrant-node2:
-    image: qdrant/qdrant
-    command:
+    image: qdrant/qdrant:v1.13.4
+    platform: linux/arm64
+    command: 
       - /qdrant/qdrant
       - --uri
       - http://qdrant-node2:6335
     volumes:
       - qdrant_node2_data:/qdrant/storage
     ports:
-      - "6335:6333"  # Node2 HTTP API
-      - "6336:6334"  # Node2 gRPC
+      - "6335:6333"  # Secondary node HTTP
+      - "6336:6334"  # Secondary node gRPC
     networks:
       - qdrant-net
     environment:

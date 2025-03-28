@@ -78,6 +78,10 @@ Download the dataset and update dataset_path in the config
 ```bash
 python 1_complete_pipeline.py
 ```
+⏱️ Complete Pipeline run on g6.4xlarge, GPU enabled, 1.2M in 3.5 hours:
+
+<img src="image-2.png" width="50%">
+
 ⏱️ Complete Pipeline run on Apple M3 Pro, 1.2M in 13.5 hours:
 
 <img src="image.png" width="50%">

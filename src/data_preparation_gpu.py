@@ -49,6 +49,7 @@ def system_monitor():
         ram_usage = psutil.Process().memory_info().rss / 1024**3
 
         utilization_line = f"\r📊 CPU: {cpu_util:.1f}% | RAM: {ram_usage:.1f} GB | {gpu_status}"
+        sys.stdout.write("\033[K")
         print(utilization_line, end="", flush=True)
         time.sleep(0.3)
 
